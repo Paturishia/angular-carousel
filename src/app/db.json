@@ -1,0 +1,21 @@
+{
+  "images": [{
+      "id": 1,
+      "title": "Vertigo",
+      "imagePath": "./assets/images/img1.jpg",
+      "description": "Hitchcock"
+    },
+    {
+      "id": 2,
+      "title": "Abyss",
+      "imagePath": "./assets/images/img2.jpg",
+      "description": "James Cameron"
+    },
+    {
+      "id": 3,
+      "title": "The Warriors",
+      "imagePath": "./assets/images/img3.jpg",
+      "description": "Walter Hill"
+    }
+  ]
+}

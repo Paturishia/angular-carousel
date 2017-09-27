@@ -1,0 +1,8 @@
+<div class="carousel-inner">
+  <app-slide
+    *ngFor="let slideEl of slides; let i = index"
+    [slide]="slideEl"
+    [index]="i"
+    [slideActive]="slideActive"
+  ></app-slide>
+</div>
