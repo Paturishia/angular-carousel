@@ -15,8 +15,13 @@ export class SlidesComponent implements OnInit {
   constructor(private slideService: SlideService) { }
 
   ngOnInit() {
-    this.slides = this.slideService.getSlides();
-    console.log(this.slides);
+    this.slideService.slides
+      .subscribe(
+        (slides: Slide[]) => {
+          this.slides = slides
+        },
+        (error) => console.log(error)
+      );
 
     this.slideService.slideActivated.subscribe(
       (index: number) => {

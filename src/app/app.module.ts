@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpModule } from '@angular/http';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
@@ -9,6 +9,9 @@ import { SlidesComponent } from './carousel/slides/slides.component';
 import { SlideComponent } from './carousel/slides/slide/slide.component';
 import { IndicatorsComponent } from './carousel/indicators/indicators.component';
 import { IndicatorItemComponent } from './carousel/indicators/indicator-item/indicator-item.component';
+
+import { SlideService } from './carousel/slides/slide.service';
+import { CarouselConfigService } from './carousel/carousel-config.service';
 
 @NgModule({
   declarations: [
@@ -22,9 +25,9 @@ import { IndicatorItemComponent } from './carousel/indicators/indicator-item/ind
   ],
   imports: [
     BrowserModule,
-    HttpClientModule
+    HttpModule
   ],
-  providers: [],
+  providers: [SlideService, CarouselConfigService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

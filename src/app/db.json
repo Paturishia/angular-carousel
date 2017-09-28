@@ -16,6 +16,18 @@
       "title": "The Warriors",
       "imagePath": "./assets/images/img3.jpg",
       "description": "Walter Hill"
+    },
+    {
+      "id": 4,
+      "title": "Apocalypse Now Redux",
+      "imagePath": "./assets/images/img4.jpg",
+      "description": "Francis Ford Coppola"
+    },
+    {
+      "id": 5,
+      "title": "The Beach",
+      "imagePath": "./assets/images/img5.jpg",
+      "description": "Danny Boyle"
     }
   ]
 }

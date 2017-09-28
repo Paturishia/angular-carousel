@@ -13,13 +13,7 @@ export class IndicatorItemComponent implements OnInit {
 
   constructor(private slideService: SlideService) { }
 
-  ngOnInit() {
-    this.slideService.slideActivated.subscribe(
-      (index: number) => {
-        this.slideActive = index;
-      }
-    );
-  }
+  ngOnInit() {}
 
   onActivated(index) {
     this.slideService.slideActivated.next(index);

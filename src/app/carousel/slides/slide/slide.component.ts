@@ -15,8 +15,6 @@ export class SlideComponent implements OnInit {
 
   constructor(private slideService: SlideService) { }
 
-  ngOnInit() {
-
-  }
+  ngOnInit() {}
 
 }

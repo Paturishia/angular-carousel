@@ -1,7 +1,20 @@
 <!-- Carousel controls -->
-<a class="carousel-control left" href="#carouselAngular" data-slide="prev" (click)="onPrev()">
+<div *ngIf="!controlsThumbs; else controlsThumbsTpl">
+  <a class="carousel-control left" href="#carouselAngular" data-slide="prev" (click)="onPrev()">
     <span class="glyphicon glyphicon-chevron-left"></span>
-</a>
-<a class="carousel-control right" href="#carouselAngular" data-slide="next" (click)="onNext()">
+  </a>
+  <a class="carousel-control right" href="#carouselAngular" data-slide="next" (click)="onNext()">
     <span class="glyphicon glyphicon-chevron-right"></span>
-</a>
+  </a>
+</div>
+<ng-template #controlsThumbsTpl>
+  <div class="control-container col-xs-12" *ngIf="slidePrev && slideNext">
+    <a class="control left col-xs-2" href="#carouselAngular" data-slide="prev" (click)="onPrev()">
+      <img [src]="slidePrev.imagePath" style="width: 100%" />
+    </a>
+
+    <a class="control right col-xs-2" href="#carouselAngular" data-slide="next" (click)="onNext()">
+      <img [src]="slideNext.imagePath" style="width: 100%" />
+    </a>
+  </div>
+</ng-template>
