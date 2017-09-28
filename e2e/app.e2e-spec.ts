@@ -1,14 +1,14 @@
-import { AppPage } from './app.po';
+import { Ng4CompleteGuidePage } from './app.po';
 
-describe('carousel App', () => {
-  let page: AppPage;
+describe('ng4-complete-guide App', function() {
+  let page: Ng4CompleteGuidePage;
 
   beforeEach(() => {
-    page = new AppPage();
+    page = new Ng4CompleteGuidePage();
   });
 
-  it('should display welcome message', () => {
+  it('should display message saying app works', () => {
     page.navigateTo();
-    expect(page.getParagraphText()).toEqual('Welcome to app!');
+    expect(page.getParagraphText()).toEqual('app works!');
   });
 });

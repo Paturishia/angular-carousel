@@ -1,51 +1,16 @@
-<div class="container-fluid">
-  <div class="row m-t-30">
-    <div class="col-md-8 col-md-offset-2">
-      <app-carousel></app-carousel>
-    </div>
-    <div class="col-md-6 col-md-offset-3">
-      <hr />
-      <div class="col-xs-6">
-        <div class="form-group">
-          <label>
-            <input
-              type="checkbox"
-              checked
-              #circularConfigInput /> Circular
-          </label>
-        </div>
-        <div class="form-group">
-          <label class="sr-only">Interval (ms)</label>
-          <div class="input-group">
-            <input
-              type="text"
-              class="form-control"
-              placeholder="Interval"
-              value="2000"
-              required
-              #intervalConfigInput />
-            <div class="input-group-addon">ms</div>
-          </div>
-        </div>
-        <button class="btn btn-primary" (click)="onLoad()">Load Settings</button>
-      </div>
-      <div class="col-xs-6">
-        <div class="form-group">
-          <label>
-            <input
-              type="checkbox"
-              #autoSlideConfigInput /> Auto Slide
-          </label>
-        </div>
-        <div class="form-group">
-          <label>
-            <input
-              type="checkbox"
-              checked
-              #controlsThumbConfigInput /> Thumbnails as control buttons
-          </label>
-        </div>
-      </div>
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
+      <h1>{{ appName | async }}</h1>
+      <input type="text" #serverName>
+      <button class="btn btn-primary" (click)="onAddServer(serverName.value)">Add Server</button>
+      <br /><br />
+      <button class="btn btn-primary" (click)="onSave()">Save Servers</button>
+      <button class="btn btn-primary" (click)="onGet()">Get Servers</button>
+      <hr>
+      <ul class="list-group" *ngFor="let server of servers">
+        <li class="list-group-item">{{ server.name }} (ID: {{ server.id }})</li>
+      </ul>
     </div>
   </div>
 </div>

@@ -1,41 +1,54 @@
-import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
-import { Observable } from 'rxjs/Observable';
-import { Observer } from 'rxjs/Observer';
-import { Subscription } from 'rxjs/Subscription';
-
-import { CarouselConfigService } from './carousel/carousel-config.service';
+import { ServerService } from './server.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
-  @ViewChild('circularConfigInput') circularConfigInput: ElementRef;
-  @ViewChild('intervalConfigInput') intervalConfigInput: ElementRef;
-  @ViewChild('autoSlideConfigInput') autoSlideConfigInput: ElementRef;
-  @ViewChild('controlsThumbConfigInput') controlsThumbConfigInput: ElementRef;
+export class AppComponent {
+  appName = this.serverService.getAppName();
+  servers = [
+    {
+      name: 'Testserver',
+      capacity: 10,
+      id: this.generateId()
+    },
+    {
+      name: 'Liveserver',
+      capacity: 100,
+      id: this.generateId()
+    }
+  ];
 
-  constructor(private carouselConfigService: CarouselConfigService) {}
+  constructor(private serverService: ServerService) {}
 
-  ngOnInit() {
-    this.carouselConfigService.config.next({
-      circular: this.circularConfigInput.nativeElement.checked,
-      interval: this.intervalConfigInput.nativeElement.value,
-      autoSlide: this.autoSlideConfigInput.nativeElement.checked,
-      controlsThumb: this.controlsThumbConfigInput.nativeElement.checked
+  onAddServer(name: string) {
+    this.servers.push({
+      name: name,
+      capacity: 50,
+      id: this.generateId()
     });
   }
 
-  onLoad() {
-    const newConfig = {
-      circular: this.circularConfigInput.nativeElement.checked,
-      interval: this.intervalConfigInput.nativeElement.value,
-      autoSlide: this.autoSlideConfigInput.nativeElement.checked,
-      controlsThumb: this.controlsThumbConfigInput.nativeElement.checked
-    };
+  onSave() {
+    this.serverService.storeServers(this.servers)
+      .subscribe(
+        (response) => console.log(response),
+        (error) => console.log(error)
+      );
+  }
 
-    this.carouselConfigService.config.next(newConfig);
+  onGet() {
+    this.serverService.getServers()
+      .subscribe(
+        (servers: any[]) => this.servers = servers,
+        (error) => console.log(error)
+      );
+  }
+
+  private generateId() {
+    return Math.round(Math.random() * 10000);
   }
 }
