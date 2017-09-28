@@ -14,9 +14,9 @@ import { CarouselConfigService } from './carousel-config.service';
   providers: [SlideService]
 })
 export class CarouselComponent implements OnInit, OnDestroy {
-  @Input() config;
   controlsThumbs: boolean;
   autoSlideObsSubscription: Subscription;
+  private interval;
 
   constructor(private slideService: SlideService, private carouselConfigService: CarouselConfigService) { }
 
@@ -25,25 +25,23 @@ export class CarouselComponent implements OnInit, OnDestroy {
       (config: any) => {
         if (config.autoSlide && config.circular) {
           const autoSlideObs = Observable.create((observer: Observer<void>) => {
-            setInterval(() => {
+            this.interval = setInterval(() => {
               const newIndex = this.slideService.getIndex('next', config.circular);
               this.slideService.slideActivated.next(newIndex);
-            }, this.config.interval);
+            }, config.interval);
           });
           this.autoSlideObsSubscription = autoSlideObs.subscribe();
+        } else {
+          clearInterval(this.interval);
         }
-
-        this.controlsThumbs = config.controlsThumbs;
+        this.controlsThumbs = config.controlsThumb;
       }
     );
-    this.carouselConfigService.config.next(this.config);
   }
 
   ngOnDestroy() {
+    clearInterval(this.interval);
     this.autoSlideObsSubscription.unsubscribe();
-    // if (this.config.autoSlide) {
-    //   this.autoSlideObsSubscription.unsubscribe();
-    // }
   }
 
 }

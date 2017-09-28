@@ -1,9 +1,3 @@
-/*li {
-  width: 25px;
-  height: 1px;
-  border-radius: 0;
-  border-color: grey;
-}*/
 li.active {
   border-color: transparent;
   background-color: transparent;
@@ -37,10 +31,3 @@ li.active::before {
   border-radius: 50%;
   margin: -4px 0 0 -4px;
 }
-
-/*li.active::before {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  margin: -5px 0 0 -5px;
-}*/
