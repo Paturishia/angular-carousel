@@ -10,30 +10,38 @@ import { Slide } from '../slides/slide.model';
   templateUrl: './controls.component.html',
   styleUrls: ['./controls.component.css']
 })
+
 export class ControlsComponent implements OnInit {
   slideNext: Slide;
   slidePrev: Slide;
-  slideActive: number;
+  circular: boolean;
+  firstSlide: boolean;
+  lastSlide: boolean;
   controlsThumbs: boolean = this.carouselConfigService.config.getValue().controlsThumbs;
 
   constructor(private slideService: SlideService, private carouselConfigService: CarouselConfigService) { }
 
   ngOnInit() {
-    this.carouselConfigService.config.subscribe(
-      (config: any) => this.controlsThumbs = config.controlsThumbs
-    );
+    this.carouselConfigService.config
+      .subscribe(
+        (config: any) => {
+          this.controlsThumbs = config.controlsThumbs;
+          this.circular = config.circular
+        }
+      );
 
     this.slideService.slides
       .subscribe(
         (slides: Slide[]) => {
-          // console.log('SUBSCRIBE - Slides >>>', slides);
-          const indexPrev = this.slideService.getIndex('prev');
-          const indexNext = this.slideService.getIndex('next');
+          const indexPrev = this.slideService.getIndex('prev', this.circular);
+          const indexNext = this.slideService.getIndex('next', this.circular);
+          const index = this.slideService.slideActivated.value;
 
           this.slideNext = slides[indexNext];
           this.slidePrev = slides[indexPrev];
-
-          // console.log('SUBSCRIBE - Next >>',this.slideNext, ' / Prev >>', this.slidePrev);
+          this.lastSlide = index === indexNext;
+          this.firstSlide = index === indexPrev;
+          console.log('index >>>', index, indexNext, indexPrev, this.lastSlide,this.firstSlide)
         },
         (error) => console.log(error)
       );
@@ -41,28 +49,26 @@ export class ControlsComponent implements OnInit {
     this.slideService.slideActivated
       .subscribe(
         (index: number) => {
-          // console.debug('SUBSCRIBE - slideActivated');
-          const indexPrev = this.slideService.getIndex('prev');
-          const indexNext = this.slideService.getIndex('next');
+          const indexPrev = this.slideService.getIndex('prev', this.circular);
+          const indexNext = this.slideService.getIndex('next', this.circular);
           const slides = this.slideService.slides.getValue();
-
-          // console.log('SUBSCRIBE - Slides 22 >>',slides);
-          // console.log('SUBSCRIBE - Index Prev >>',indexPrev, 'SUBSCRIBE - Index Next >>', indexNext);
 
           this.slideNext = slides[indexNext];
           this.slidePrev = slides[indexPrev];
+          this.lastSlide = index === indexNext;
+          this.firstSlide = index === indexPrev;
+          console.log('index >>>', index, indexNext, indexPrev, this.lastSlide,this.firstSlide)
         }
       );
   }
 
   onNext() {
-    const newIndex = this.slideService.getIndex('next');
+    const newIndex = this.slideService.getIndex('next', this.circular);
     this.slideService.slideActivated.next(newIndex);
   }
 
   onPrev() {
-    const newIndex = this.slideService.getIndex('prev');
+    const newIndex = this.slideService.getIndex('prev', this.circular);
     this.slideService.slideActivated.next(newIndex);
   }
-
 }

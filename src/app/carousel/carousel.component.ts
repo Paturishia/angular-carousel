@@ -23,10 +23,10 @@ export class CarouselComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.carouselConfigService.config.subscribe(
       (config: any) => {
-        if (config.autoSlide) {
+        if (config.autoSlide && config.circular) {
           const autoSlideObs = Observable.create((observer: Observer<void>) => {
             setInterval(() => {
-              const newIndex = this.slideService.getIndex('next');
+              const newIndex = this.slideService.getIndex('next', config.circular);
               this.slideService.slideActivated.next(newIndex);
             }, this.config.interval);
           });

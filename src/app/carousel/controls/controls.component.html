@@ -9,12 +9,16 @@
 </div>
 <ng-template #controlsThumbsTpl>
   <div class="control-container col-xs-12" *ngIf="slidePrev && slideNext">
-    <a class="control left col-xs-2" href="#carouselAngular" data-slide="prev" (click)="onPrev()">
+    <a class="control left col-xs-2" href="#carouselAngular" data-slide="prev" (click)="onPrev()" [ngClass]="{disabled: firstSlide}">
       <img [src]="slidePrev.imagePath" style="width: 100%" />
+      <span class="overlay"></span>
+      <span class="text">Previous</span>
     </a>
 
-    <a class="control right col-xs-2" href="#carouselAngular" data-slide="next" (click)="onNext()">
+    <a class="control right col-xs-2" href="#carouselAngular" data-slide="next" (click)="onNext()" [ngClass]="{disabled: lastSlide}">
       <img [src]="slideNext.imagePath" style="width: 100%" />
+      <span class="overlay"></span>
+      <span class="text">Next</span>
     </a>
   </div>
 </ng-template>

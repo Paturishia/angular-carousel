@@ -7,18 +7,19 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/Rx';
 
 import { Slide } from './slide.model';
+import{ CarouselConfigService } from '../carousel-config.service';
 
 @Injectable()
 export class SlideService {
   slides = new BehaviorSubject<Slide[]>([]);
   slideActivated = new BehaviorSubject<number>(0);
+  circular: boolean;
 
   constructor(private http: Http) {
     this.getSlidesHttp();
   }
 
   getSlidesHttp() {
-    // console.log('GET HTTP');
     this.http.get('http://localhost:3000/images')
       .map(
         (response: Response) => {
@@ -32,16 +33,11 @@ export class SlideService {
       ).subscribe();
   }
 
-  getSlide(index) {
-    console.debug('getSlide >>>', index)
-    return this.slides[index];
-  }
-
   getMaxIndex() {
     return this.slides.getValue().length - 1;
   }
 
-  getIndex(action: string) {
+  getIndex(action: string, circular: boolean) {
     let newIndex = this.slideActivated.value;
     const minIndex = 0;
     const maxIndex = this.getMaxIndex();
@@ -52,8 +48,8 @@ export class SlideService {
       newIndex--;
     }
 
-    if (newIndex > maxIndex) { newIndex = minIndex; }
-    if (newIndex < minIndex) { newIndex = maxIndex; }
+    if (newIndex > maxIndex) { newIndex = circular ? minIndex : maxIndex; }
+    if (newIndex < minIndex) { newIndex = circular ? maxIndex : minIndex; }
 
     return newIndex;
   }
