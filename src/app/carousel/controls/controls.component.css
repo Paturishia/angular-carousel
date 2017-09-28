@@ -1,0 +1,29 @@
+.control-container {
+  position: absolute;
+  top: 0;
+}
+
+.nopadding {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.control {
+  margin-top: 25%;
+}
+
+.control img {
+  opacity: 0.5;
+}
+
+.control:hover img {
+  opacity: 1;
+}
+
+.control.left {
+  float: left;
+}
+
+.control.right {
+  float: right;
+}

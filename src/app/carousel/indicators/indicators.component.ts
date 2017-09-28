@@ -11,11 +11,24 @@ import { SlideService } from '../slides/slide.service';
 })
 export class IndicatorsComponent implements OnInit {
   slides: Slide[];
+  slideActive: number;
 
   constructor(private slideService: SlideService) { }
 
   ngOnInit() {
-    this.slides = this.slideService.getSlides();
+    this.slideService.slides
+      .subscribe(
+        (slides: Slide[]) => {
+          this.slides = slides
+        },
+        (error) => console.log(error)
+      );
+
+    this.slideService.slideActivated.subscribe(
+      (index: number) => {
+        this.slideActive = index;
+      }
+    );
   }
 
 }

@@ -1,8 +1,11 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 
-// import { Subject } from 'rxjs/Subject';
+import { Observable } from 'rxjs/Observable';
+import { Observer } from 'rxjs/Observer';
+import { Subscription } from 'rxjs/Subscription';
 
 import { SlideService } from './slides/slide.service';
+import { CarouselConfigService } from './carousel-config.service';
 
 @Component({
   selector: 'app-carousel',
@@ -10,22 +13,37 @@ import { SlideService } from './slides/slide.service';
   styleUrls: ['./carousel.component.css'],
   providers: [SlideService]
 })
-export class CarouselComponent implements OnInit {
-  @Input() config: { circular: boolean, interval: number, autoSlide: boolean };
-  @Input() slideActive: number;
-  // carouselConfig = new Subject();
-  
-  constructor(private slideService: SlideService) { }
+export class CarouselComponent implements OnInit, OnDestroy {
+  @Input() config;
+  controlsThumbs: boolean;
+  autoSlideObsSubscription: Subscription;
+
+  constructor(private slideService: SlideService, private carouselConfigService: CarouselConfigService) { }
 
   ngOnInit() {
-    console.log('config >>>', this.config);
-    this.slideService.slideActivated.subscribe(
-      (index: number) => {
-        this.slideActive = index;
+    this.carouselConfigService.config.subscribe(
+      (config: any) => {
+        if (config.autoSlide) {
+          const autoSlideObs = Observable.create((observer: Observer<void>) => {
+            setInterval(() => {
+              const newIndex = this.slideService.getIndex('next');
+              this.slideService.slideActivated.next(newIndex);
+            }, this.config.interval);
+          });
+          this.autoSlideObsSubscription = autoSlideObs.subscribe();
+        }
+
+        this.controlsThumbs = config.controlsThumbs;
       }
     );
-    // this.slideService.setConfig(this.config);
-    // this.carouselConfig.merge(this.config);
+    this.carouselConfigService.config.next(this.config);
+  }
+
+  ngOnDestroy() {
+    this.autoSlideObsSubscription.unsubscribe();
+    // if (this.config.autoSlide) {
+    //   this.autoSlideObsSubscription.unsubscribe();
+    // }
   }
 
 }

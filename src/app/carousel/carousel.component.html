@@ -1,10 +1,10 @@
 <div class="row">
-  <div class="col-xs-8">
-    <div id="carouselAngular" class="carousel slide" data-ride="carousel">
+  <div class="col-xs-8 col-xs-offset-2">
+    <div id="carouselAngular" class="col-xs-12 carousel slide nopadding" data-ride="carousel">
       <app-indicators></app-indicators>
       <app-slides></app-slides>
-      <app-controls></app-controls>
+      <app-controls *ngIf="!controlsThumbs"></app-controls>
     </div>
-    <p>Slide activated {{slideActive}}</p>
   </div>
+  <app-controls *ngIf="controlsThumbs"></app-controls>
 </div>
