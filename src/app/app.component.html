@@ -11,6 +11,7 @@
             <input
               type="checkbox"
               checked
+              (click)="circularOnChange($event)"
               #circularConfigInput /> Circular
           </label>
         </div>
@@ -31,9 +32,11 @@
       </div>
       <div class="col-xs-6">
         <div class="form-group">
-          <label>
+          <label
+          [ngClass]="{disabled: !circular}">
             <input
               type="checkbox"
+              [disabled]="!circular"
               #autoSlideConfigInput /> Auto Slide
           </label>
         </div>
