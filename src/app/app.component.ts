@@ -16,22 +16,33 @@ export class AppComponent implements OnInit {
   @ViewChild('intervalConfigInput') intervalConfigInput: ElementRef;
   @ViewChild('autoSlideConfigInput') autoSlideConfigInput: ElementRef;
   @ViewChild('controlsThumbConfigInput') controlsThumbConfigInput: ElementRef;
+  circular: boolean;
 
   constructor(private carouselConfigService: CarouselConfigService) {}
 
   ngOnInit() {
+    this.carouselConfigService.config
+      .subscribe(
+        (config: any) => {
+          this.circular = config.circular;
+        }
+      );
     this.carouselConfigService.config.next({
       circular: this.circularConfigInput.nativeElement.checked,
-      interval: this.intervalConfigInput.nativeElement.value,
+      interval: +this.intervalConfigInput.nativeElement.value,
       autoSlide: this.autoSlideConfigInput.nativeElement.checked,
       controlsThumb: this.controlsThumbConfigInput.nativeElement.checked
     });
   }
 
+  circularOnChange() {
+    this.circular = !this.circular;
+  }
+
   onLoad() {
     const newConfig = {
       circular: this.circularConfigInput.nativeElement.checked,
-      interval: this.intervalConfigInput.nativeElement.value,
+      interval: +this.intervalConfigInput.nativeElement.value,
       autoSlide: this.autoSlideConfigInput.nativeElement.checked,
       controlsThumb: this.controlsThumbConfigInput.nativeElement.checked
     };
