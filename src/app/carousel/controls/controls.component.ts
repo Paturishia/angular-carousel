@@ -25,7 +25,7 @@ export class ControlsComponent implements OnInit {
     this.carouselConfigService.config
       .subscribe(
         (config: any) => {
-          this.controlsThumbs = config.controlsThumbs;
+          this.controlsThumbs = config.controlsThumb;
           this.circular = config.circular
         }
       );
@@ -41,7 +41,6 @@ export class ControlsComponent implements OnInit {
           this.slidePrev = slides[indexPrev];
           this.lastSlide = index === indexNext;
           this.firstSlide = index === indexPrev;
-          console.log('index >>>', index, indexNext, indexPrev, this.lastSlide,this.firstSlide)
         },
         (error) => console.log(error)
       );
@@ -57,7 +56,6 @@ export class ControlsComponent implements OnInit {
           this.slidePrev = slides[indexPrev];
           this.lastSlide = index === indexNext;
           this.firstSlide = index === indexPrev;
-          console.log('index >>>', index, indexNext, indexPrev, this.lastSlide,this.firstSlide)
         }
       );
   }
